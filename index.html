@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>קריית שמואל</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            direction: rtl;
+            text-align: right;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1.5em 2em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        header .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        
+        .view-counter {
+            font-size: 1em;
+            color: #ffc107;
+            font-weight: bold;
+        }
+
+        header nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 20px;
+        }
+
+        header nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2em;
+            padding: 0.5em 1em;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        header nav a:hover {
+            background-color: #555;
+        }
+
+        main {
+            padding: 2em;
+            text-align: center;
+        }
+
+        .products-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2em;
+            margin-top: 2em;
+        }
+
+        .product-card {
+            position: relative;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 1.5em;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: auto;
+            max-height: 350px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 1em;
+        }
+
+        .product-card h2 {
+            font-size: 1.5em;
+            margin: 0.5em 0;
+        }
+
+        .product-card p {
+            font-size: 1em;
+            color: #666;
+        }
+
+        .price {
+            font-size: 1.8em;
+            color: #007bff;
+            font-weight: bold;
+            margin: 1em 0;
+        }
+
+        .whatsapp-button {
+            display: inline-block;
+            background-color: #25d366;
+            color: #fff;
+            border: none;
+            padding: 0.8em 2em;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            margin-bottom: 0.5em;
+        }
+
+        .whatsapp-button:hover {
+            background-color: #1da851;
+        }
+
+        .delete-button {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 0.5em 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+        }
+
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+        
+        .delete-controls {
+            margin-top: 1em;
+            text-align: center;
+        }
+
+        .delete-controls input {
+            width: 80%;
+            padding: 0.5em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+            margin-bottom: 0.5em;
+        }
+
+        .delete-controls .confirm-delete-button {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 0.5em 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+
+        .upload-form-container {
+            max-width: 600px;
+            margin: 2em auto;
+            background-color: #fff;
+            padding: 2em;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: right;
+        }
+
+        .upload-form-container label {
+            display: block;
+            margin-bottom: 0.5em;
+            font-weight: bold;
+        }
+        
+        .upload-form-container input,
+        .upload-form-container textarea {
+            display: block;
+            width: 100%;
+            padding: 0.8em;
+            margin-bottom: 1.5em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+
+        .upload-form-container .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+            margin-bottom: 1.5em;
+        }
+
+        .upload-form-container .file-input-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+        }
+
+        .upload-form-container .file-input-wrapper .button-text {
+            background-color: #eee;
+            color: #333;
+            padding: 0.8em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: block;
+            text-align: center;
+            cursor: pointer;
+        }
+        
+        .upload-form-container button {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 0.8em 2em;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .upload-form-container button:hover {
+            background-color: #218838;
+        }
+
+        .upload-form-container #image-preview {
+            max-width: 100%;
+            max-height: 200px;
+            display: block;
+            margin-top: 1em;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .page {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">קריית שמואל</div>
+            <div id="view-counter" class="view-counter">צפיות: 0</div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#" onclick="showPage('home')">דף הבית</a></li>
+                <li><a href="#" onclick="showPage('upload')">העלאת מוצר</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div id="home-page" class="page">
+            <h1>מוצרים למכירה</h1>
+            <div id="products-container" class="products-container">
+                <!-- Products will be rendered here by JavaScript -->
+            </div>
+        </div>
+
+        <div id="upload-page" class="page" style="display: none;">
+            <h1>העלאת מוצר חדש</h1>
+            <div class="upload-form-container">
+                <div id="code-prompt">
+                    <p>יש להזין קוד סודי כדי להמשיך:</p>
+                    <input type="password" id="secretCodeInput" placeholder="הכנס קוד סודי">
+                    <button onclick="checkCode()">שלח</button>
+                    <p id="message"></p>
+                </div>
+
+                <div id="upload-form" style="display: none;">
+                    <form id="productForm">
+                        <label for="productName">שם המוצר:</label>
+                        <input type="text" id="productName" required>
+
+                        <label for="productDescription">תיאור:</label>
+                        <textarea id="productDescription" required></textarea>
+                        
+                        <label for="productPrice">מחיר:</label>
+                        <input type="number" id="productPrice" required>
+                        
+                        <label for="productImageFile">תמונה:</label>
+                        <div class="file-input-wrapper">
+                            <span id="file-name-display" class="button-text">בחר קובץ...</span>
+                            <input type="file" id="productImageFile" accept="image/*">
+                        </div>
+                        <img id="image-preview" src="#" alt="תצוגה מקדימה של התמונה שנבחרה" style="display: none;">
+
+                        <button type="submit" id="submitBtn">העלה מוצר</button>
+                    </form>
+                    <p id="upload-message"></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const SERVER_URL = 'http://localhost:3000';
+        const WHATSAPP_PHONE_NUMBER = '972501234567'; 
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchProductsFromServer();
+            fetchViewCount();
+            showPage('home');
+        });
+
+        const SECRET_CODE = "shmuel123";
+
+        async function fetchProductsFromServer() {
+            const productsContainer = document.getElementById('products-container');
+            productsContainer.innerHTML = '';
+            
+            try {
+                const response = await fetch(`${SERVER_URL}/products`);
+                const products = await response.json();
+                
+                products.forEach(product => {
+                    const whatsappMessage = encodeURIComponent(`אני רוצה את המוצר: ${product.name}`);
+                    const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE_NUMBER}?text=${whatsappMessage}`;
+
+                    const productCard = document.createElement('div');
+                    productCard.className = 'product-card';
+                    productCard.innerHTML = `
+                        <img src="${SERVER_URL}${product.image}" alt="${product.name}" onerror="this.onerror=null;this.src='https://via.placeholder.com/300x200/cccccc/ffffff?text=תמונה+לא+נמצאה';">
+                        <h2>${product.name}</h2>
+                        <p>${product.description}</p>
+                        <div class="price">${product.price} ש"ח</div>
+                        <a href="${whatsappUrl}" class="whatsapp-button" target="_blank">קנה עכשיו</a>
+                        <div class="delete-controls">
+                            <button class="delete-button" data-product-id="${product.id}">מחק מוצר</button>
+                            <div class="delete-prompt" style="display: none;">
+                                <input type="password" placeholder="הכנס קוד סודי" class="delete-secret-code-input">
+                                <button class="confirm-delete-button" data-product-id="${product.id}">אשר מחיקה</button>
+                                <p class="delete-message" style="color: red; font-size: 0.8em; margin-top: 0.5em;"></p>
+                            </div>
+                        </div>
+                    `;
+                    productsContainer.appendChild(productCard);
+                });
+                
+                document.querySelectorAll('.delete-button').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const productCard = e.target.closest('.product-card');
+                        const deletePrompt = productCard.querySelector('.delete-prompt');
+                        deletePrompt.style.display = 'block';
+                    });
+                });
+                
+                document.querySelectorAll('.confirm-delete-button').forEach(button => {
+                    button.addEventListener('click', async (e) => {
+                        const productCard = e.target.closest('.product-card');
+                        const input = productCard.querySelector('.delete-secret-code-input');
+                        const message = productCard.querySelector('.delete-message');
+                        const productId = e.target.getAttribute('data-product-id');
+                        
+                        if (input.value === SECRET_CODE) {
+                            message.textContent = 'מחיקה מתבצעת...';
+                            message.style.color = 'blue';
+                            await deleteProduct(productId);
+                        } else {
+                            message.textContent = 'קוד סודי שגוי.';
+                            message.style.color = 'red';
+                        }
+                    });
+                });
+
+            } catch (error) {
+                console.error("Error fetching products from server:", error);
+                productsContainer.innerHTML = '<p>אירעה שגיאה בטעינת המוצרים מהשרת.</p>';
+            }
+        }
+        
+        async function deleteProduct(productId) {
+            try {
+                const response = await fetch(`${SERVER_URL}/products/${productId}`, {
+                    method: 'DELETE'
+                });
+                
+                if (response.ok) {
+                    const productCard = document.querySelector(`[data-product-id="${productId}"]`).closest('.product-card');
+                    const message = productCard.querySelector('.delete-message');
+                    message.textContent = 'המוצר נמחק בהצלחה!';
+                    message.style.color = 'green';
+                    setTimeout(() => fetchProductsFromServer(), 1000);
+                } else {
+                    const errorData = await response.json();
+                    const productCard = document.querySelector(`[data-product-id="${productId}"]`).closest('.product-card');
+                    const message = productCard.querySelector('.delete-message');
+                    message.textContent = `שגיאה במחיקת המוצר: ${errorData.error || 'שגיאה לא ידועה'}`;
+                }
+            } catch (error) {
+                console.error("Error deleting product:", error);
+                const productCard = document.querySelector(`[data-product-id="${productId}"]`).closest('.product-card');
+                const message = productCard.querySelector('.delete-message');
+                message.textContent = 'אירעה שגיאה בתקשורת עם השרת.';
+            }
+        }
+
+        async function fetchViewCount() {
+            try {
+                const response = await fetch(`${SERVER_URL}/view-count`);
+                const data = await response.json();
+                document.getElementById('view-counter').textContent = `צפיות: ${data.count}`;
+            } catch (error) {
+                console.error("Error fetching view count:", error);
+                document.getElementById('view-counter').textContent = 'צפיות: N/A';
+            }
+        }
+
+        window.checkCode = function() {
+            const userInput = document.getElementById("secretCodeInput").value;
+            const message = document.getElementById("message");
+            const codePrompt = document.getElementById("code-prompt");
+            const uploadForm = document.getElementById("upload-form");
+
+            if (userInput === SECRET_CODE) {
+                message.textContent = "הקוד נכון! הטופס נפתח.";
+                message.style.color = "green";
+                codePrompt.style.display = "none";
+                uploadForm.style.display = "block";
+            } else {
+                message.textContent = "קוד שגוי, נסה שוב.";
+                message.style.color = "red";
+            }
+        };
+
+        document.getElementById('productImageFile').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            const fileNameDisplay = document.getElementById('file-name-display');
+            const imagePreview = document.getElementById('image-preview');
+            
+            if (file) {
+                fileNameDisplay.textContent = file.name;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                fileNameDisplay.textContent = 'בחר קובץ...';
+                imagePreview.style.display = 'none';
+            }
+        });
+
+        document.getElementById('productForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const uploadMessage = document.getElementById('upload-message');
+            const submitBtn = document.getElementById('submitBtn');
+            const fileInput = document.getElementById('productImageFile');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                uploadMessage.textContent = 'בחר קובץ תמונה כדי להמשיך.';
+                uploadMessage.style.color = 'red';
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('productName', document.getElementById('productName').value);
+            formData.append('productDescription', document.getElementById('productDescription').value);
+            formData.append('productPrice', document.getElementById('productPrice').value);
+            formData.append('productImage', file);
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'מעלה...';
+            uploadMessage.textContent = 'מעלה מוצר לשרת...';
+            uploadMessage.style.color = 'blue';
+
+            try {
+                const response = await fetch(`${SERVER_URL}/products`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    uploadMessage.textContent = 'המוצר הועלה בהצלחה!';
+                    uploadMessage.style.color = 'green';
+                    document.getElementById('productForm').reset();
+                    document.getElementById('image-preview').style.display = 'none';
+                    document.getElementById('file-name-display').textContent = 'בחר קובץ...';
+                    fetchProductsFromServer();
+                } else {
+                    const errorData = await response.json();
+                    uploadMessage.textContent = `שגיאה בהעלאת המוצר: ${errorData.error || 'שגיאה לא ידועה'}`;
+                    uploadMessage.style.color = 'red';
+                }
+            } catch (error) {
+                console.error("Error uploading product to server:", error);
+                uploadMessage.textContent = 'אירעה שגיאה בתקשורת עם השרת.';
+                uploadMessage.style.color = 'red';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'העלה מוצר';
+            }
+        });
+
+        window.showPage = function(pageId) {
+            document.getElementById('home-page').style.display = 'none';
+            document.getElementById('upload-page').style.display = 'none';
+            document.getElementById(pageId + '-page').style.display = 'block';
+            
+            if (pageId === 'upload') {
+                document.getElementById("code-prompt").style.display = "block";
+                document.getElementById("upload-form").style.display = "none";
+                document.getElementById("secretCodeInput").value = "";
+                document.getElementById("message").textContent = "";
+                document.getElementById('productForm').reset();
+                document.getElementById('image-preview').style.display = 'none';
+                document.getElementById('file-name-display').textContent = 'בחר קובץ...';
+            }
+        };
+    </script>
+</body>
+</html>
