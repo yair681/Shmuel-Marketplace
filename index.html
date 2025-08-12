@@ -319,7 +319,8 @@
     </main>
 
     <script>
-        const SERVER_URL = 'http://localhost:3000';
+        // Use the full URL for the server hosted on Render
+        const SERVER_URL = 'https://shmuel.onrender.com';
         const WHATSAPP_PHONE_NUMBER = '972501234567'; 
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -335,6 +336,7 @@
             productsContainer.innerHTML = '';
             
             try {
+                console.log('Fetching products from:', `${SERVER_URL}/products`);
                 const response = await fetch(`${SERVER_URL}/products`);
                 const products = await response.json();
                 
@@ -396,6 +398,7 @@
         
         async function deleteProduct(productId) {
             try {
+                console.log('Deleting product:', `${SERVER_URL}/products/${productId}`);
                 const response = await fetch(`${SERVER_URL}/products/${productId}`, {
                     method: 'DELETE'
                 });
@@ -422,6 +425,7 @@
 
         async function fetchViewCount() {
             try {
+                console.log('Fetching view count from:', `${SERVER_URL}/view-count`);
                 const response = await fetch(`${SERVER_URL}/view-count`);
                 const data = await response.json();
                 document.getElementById('view-counter').textContent = `צפיות: ${data.count}`;
@@ -492,6 +496,7 @@
             uploadMessage.style.color = 'blue';
 
             try {
+                console.log('Uploading product to:', `${SERVER_URL}/products`);
                 const response = await fetch(`${SERVER_URL}/products`, {
                     method: 'POST',
                     body: formData
@@ -537,3 +542,4 @@
     </script>
 </body>
 </html>
+
